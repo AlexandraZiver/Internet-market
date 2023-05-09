@@ -1,0 +1,8 @@
+{
+  "ignore": ["node_modules"],
+  "env": {
+    "PORT": 3000
+  },
+  "script": "./server/index.js",
+  "watch": ["./server/index.js"]
+}

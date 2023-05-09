@@ -10,11 +10,23 @@
     "@types/node": "^16.18.25",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "postman": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "scss": "^0.2.4",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "winston": "^3.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,7 +34,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "dev": "nodemon server.js"
   },
   "husky": {
     "hooks": {
@@ -59,15 +72,31 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.25",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.1",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
-    "prettier": "^2.8.8",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.25",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.1"
-  }
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.tsx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DARKSWAAN/Internet-market.git"
+  },
+  "keywords": [
+    "31415926saS"
+  ],
+  "author": "AlexandraZiver",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DARKSWAAN/Internet-market/issues"
+  },
+  "homepage": "https://github.com/DARKSWAAN/Internet-market#readme"
 }
