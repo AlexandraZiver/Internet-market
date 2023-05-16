@@ -2,10 +2,12 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
-const swaggerSetup = require("../swagger");
+const swaggerSetup = require("./swagger");
 const app = express();
+const errorHandler = require("./error-handler");
 
 app.use(cors());
+app.use(errorHandler);
 app.use(helmet());
 app.use(express.static("static"));
 app.use(express.urlencoded({ extended: false }));
@@ -45,6 +47,7 @@ app.get("/", (req, res) => {
 
 app.get("/", (req, res) => {
   res.render("index", { username: req.params.username, hobbies: hobbies });
+  next(new Error("Failed"));
 });
 
 app.post("/checkUser", (req, res) => {
