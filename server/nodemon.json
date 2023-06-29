@@ -1,8 +1,8 @@
 {
   "ignore": ["node_modules"],
   "env": {
-    "PORT": 3000
+    "PORT": "${process.env.DEV_PORT}"
   },
-  "script": "./server/index.js",
+  "scripts": "ts-node ./server/index.ts",
   "watch": ["./server/index.js"]
 }

@@ -1,0 +1,6 @@
+# NODE_ENV=dev
+API_KEY=
+DB_HOST=localhost
+STATUS=
+DEV_PORT=
+PROD_PORT=

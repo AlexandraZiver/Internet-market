@@ -1,4 +1,4 @@
-const winston = require("winston");
+import winston from "winston";
 
 const logger = winston.createLogger({
   level: "info",
@@ -9,3 +9,4 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: "logs/combined.log" }),
   ],
 });
+export default logger;
