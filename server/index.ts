@@ -1,11 +1,12 @@
 import "dotenv/config";
-import express, { Request, NextFunction, Response } from "express";
-import path from "path";
 import cors from "cors";
+import express, { Request, NextFunction, Response } from "express";
 import helmet from "helmet";
+import path from "path";
 import { fileURLToPath } from "url";
-import logger from "./winston";
+
 import errorHandler from "./errorHandler";
+import logger from "./winston";
 
 const app = express();
 

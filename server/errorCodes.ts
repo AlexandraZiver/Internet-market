@@ -1,19 +1,33 @@
-const errorCodes = {
-  INVALID_EMAIL_OR_PASSWORD: {
-    statusCode: 400,
-    message: "Invalid email address or password",
-  },
-  USER_NOT_FOUND: {
-    statusCode: 404,
-    message: "User not found",
-  },
-  INTERNAL_ERROR: {
-    statusCode: 500,
-    message: "Internal Server Error",
-  },
-} as const;
+export class BaseError extends Error {
+  public statusCode: number;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+    Error.captureStackTrace(this, this.constructor);
+  }
 
-type ErrorCode = keyof typeof errorCodes;
-type ErrorData = (typeof errorCodes)[ErrorCode];
+  public toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      statusCode: this.statusCode,
+    };
+  }
+}
 
-export default errorCodes;
+export class InternalError extends BaseError {
+  public originalError: Error;
+  public statusCode: number;
+
+  constructor(message?: string) {
+    super(message || "Internal Server Error", 500);
+  }
+
+  public toJSON() {
+    return {
+      name: this.constructor.name,
+      message: this.message,
+      statusCode: this.statusCode,
+    };
+  }
+}

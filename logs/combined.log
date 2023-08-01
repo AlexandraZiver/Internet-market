@@ -27,3 +27,12 @@
 {"level":"error","status":400,"statusCode":400}
 {"level":"error"}
 {"level":"error","status":400,"statusCode":400}
+{"level":"info","message":"server started http://localhost:8000"}
+{"level":"info","message":"server started http://localhost:8000"}
+{"message":"Failed","name":"Error","statusCode":null}
+{"message":"Failed to decode param '/%PUBLIC_URL%/favicon.ico'","name":"Error","statusCode":null}
+{"level":"info","message":{"userAge":"","userName":"Sacha"}}
+{"message":"Failed","name":"Error","statusCode":null}
+{"message":"Failed to decode param '/%PUBLIC_URL%/favicon.ico'","name":"Error","statusCode":null}
+{"message":"Failed to decode param '/%PUBLIC_URL%/favicon.ico'","name":"Error","statusCode":null}
+{"level":"info","message":{"userAge":"21","userName":"Sacha"}}
