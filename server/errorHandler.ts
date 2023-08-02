@@ -1,37 +1,26 @@
 import { Request, Response, NextFunction } from "express";
 
-import { InternalError, BaseError } from "./errorCodes";
+import { InternalError, BaseError } from "./errors";
 import logger from "./winston";
 
-interface ErrorJson {
-  name: string;
-  statusCode: number;
-  message: string;
-}
-interface Error {
-  statusCode: number;
-  message: string;
-  toJSON(): ErrorJson;
-}
-
-interface Err {
-  code: number;
-}
-
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction): void => {
-  const code: number = (err && err.code) || null;
-
-  const getError = (error: Error): Response => {
-    logger.error(error);
-    return res.status(error.statusCode).json(error.toJSON());
-  };
-
-  if (code === 500) {
-    const error: Error = new InternalError(err.message);
-    getError(error);
+const getErrorByStatusCode = (statusCode: number, message: string): BaseError | InternalError => {
+  switch (statusCode) {
+    case 500:
+      return new InternalError(message);
+    default:
+      return new BaseError(message, statusCode);
   }
-  const error: Error = new BaseError(err.message, code);
-  getError(error);
+};
+
+const errorHandler = (err: any, req: Request, res: Response, next: NextFunction): Response => {
+  const statusCode: number = (err && err.code) || 500;
+  const message: string = (err && err.message) || "Something went wrong";
+
+  const errorByStatusCode = getErrorByStatusCode(statusCode, message);
+
+  logger.error(errorByStatusCode);
+
+  return res.status(statusCode).json(errorByStatusCode.toJSON());
 };
 
 export default errorHandler;
