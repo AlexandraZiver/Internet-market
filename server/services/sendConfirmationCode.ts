@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import nodemailer from "nodemailer";
 
+import codeGenerated from "./codeGenerated";
+import RegistrationRequestBody from "../interfaces/registrationRequestBody";
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -11,15 +14,12 @@ const transporter = nodemailer.createTransport({
   port: 587,
 });
 
-const sendConfirmedCode = async (
-  req: Request,
+const sendConfirmationCode = async (
+  req: Request<object, object, RegistrationRequestBody>,
   res: Response,
   next: NextFunction,
 ): Promise<number> => {
-  const min = 1000;
-  const max = 9999;
-  const randomCode: number = Math.floor(Math.random() * (max - min + 1)) + min;
-
+  const randomCode = codeGenerated();
   const email: string = await req.body.email;
   const mailOptions = {
     from: "saschaziwer121212@gmail.com",
@@ -29,14 +29,18 @@ const sendConfirmedCode = async (
   };
 
   try {
+    if (!randomCode) {
+      throw new Error("Code wasn't generated");
+    }
     const info = await transporter.sendMail(mailOptions);
     if (!info) {
       throw new Error("Error sending confirmation email:");
     }
+
     return randomCode;
   } catch (err) {
     next(err);
   }
 };
 
-export default sendConfirmedCode;
+export default sendConfirmationCode;

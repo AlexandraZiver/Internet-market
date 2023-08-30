@@ -1,12 +1,13 @@
 import Router from "express";
 
-import basketRouter from "./basket.routes";
-import goodsRouter from "./goods.routes";
-import infoRouter from "./infoGoods.routes";
-import listRouter from "./listGoods.routes";
-import ratingRouter from "./rating.routes";
-import typeRouter from "./typeGoods.routes";
-import userRouter from "./user.routes";
+import authRouter from "./auth";
+import basketRouter from "./basket";
+import goodsRouter from "./goods";
+import infoRouter from "./infoGoods";
+import listRouter from "./listGoods";
+import ratingRouter from "./rating";
+import typeRouter from "./typeGoods";
+import userRouter from "./user";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/goods", goodsRouter);
 router.use("/info", infoRouter);
 router.use("/rating", ratingRouter);
 router.use("/list", listRouter);
+router.use("/auth", authRouter);
 
 export default router;

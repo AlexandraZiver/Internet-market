@@ -1,6 +1,6 @@
 import Router from "express";
 
-import typeController from "../controllers/type.controller";
+import typeController from "../controllers/type";
 
 const typeRouter = Router();
 

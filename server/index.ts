@@ -1,7 +1,6 @@
 import "dotenv/config";
 import cors from "cors";
 import express from "express";
-import fileUpload from "express-fileupload";
 import helmet from "helmet";
 import http from "http";
 import path from "path";
@@ -24,14 +23,13 @@ app.use(express.json({ limit: "5mb" }));
 app.use(express.static("static"));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api", router);
-app.use(fileUpload({}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
 app.use(errorHandler);
 const start = async (): Promise<void> => {
   try {
-    await db.sync({ force: false });
+    await db.sync({ force: true });
     await db.authenticate();
     app.listen(process.env.PORT, () => {
       logger.info(`server started http://localhost:${process.env.PORT}`);

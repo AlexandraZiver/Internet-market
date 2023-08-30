@@ -24,7 +24,7 @@ yarn-error.log*
 .env
 .env.test
 logs/
-basket.controller.ts
-goods.controller.ts
-type.controller.ts
+basket.ts
+goods.ts
+type.ts
 
