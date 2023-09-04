@@ -1,16 +1,15 @@
 import bcrypt from "bcrypt";
-import { NextFunction } from "express";
 
-import User from "../interfaces/user";
+import { User } from "../interfaces/user";
+import errorHandler from "../middleware/errorHandler";
 import models from "../models";
 
-class UserOperation {
+class UserDB {
   public async createUser(
     userName: string,
     email: string,
     password: string,
     confirmCode: string,
-    next: NextFunction,
   ): Promise<User> {
     try {
       const hashPassword: string = await bcrypt.hash(password, 5);
@@ -25,11 +24,11 @@ class UserOperation {
       }
       return user;
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 
-  public async createBasketForUser(userId: number, next: NextFunction): Promise<{ id: number }> {
+  public async createBasketForUser(userId: number): Promise<{ id: number }> {
     try {
       const basket = await models.Basket.create({
         userId,
@@ -39,11 +38,11 @@ class UserOperation {
       }
       return basket;
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 
-  public async getUserByEmail(email: string, next: NextFunction): Promise<User | null> {
+  public async getUserByEmail(email: string): Promise<User | null> {
     try {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
@@ -51,11 +50,11 @@ class UserOperation {
       }
       return user;
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 
-  public async getUserById(id: number, next: NextFunction): Promise<User | null> {
+  public async getUserById(id: number): Promise<User | null> {
     try {
       const user = await models.User.findByPk(id);
       if (!user) {
@@ -63,42 +62,42 @@ class UserOperation {
       }
       return user;
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 
-  public async updateUserConfirmStatus(id: number, next: NextFunction): Promise<void> {
+  public async updateUserConfirmStatus(id: number): Promise<void> {
     try {
       const user = await models.User.findByPk(id);
       if (!user) {
         throw new Error("User not found");
       }
-      await models.User.update({ confirm: true, confirmCode: "" }, { where: { id } });
+      await models.User.update({ confirmed: true, confirmCode: "" }, { where: { id } });
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
-  public async deleteUser(id: number, next: NextFunction): Promise<void> {
+  public async deleteUser(id: number): Promise<void> {
     try {
       const deleteUserCount: number = await models.User.destroy({ where: { id } });
       if (deleteUserCount === 0) {
         throw new Error("User didn't delete");
       }
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 
-  public async deleteBasket(userId: number, next: NextFunction): Promise<void> {
+  public async deleteBasket(userId: number): Promise<void> {
     try {
       const deleteBasketCount: number = await models.Basket.destroy({ where: { userId } });
       if (deleteBasketCount === 0) {
         throw new Error("Basket didn't delete");
       }
     } catch (err) {
-      next(err);
+      errorHandler(err);
     }
   }
 }
 
-export default new UserOperation();
+export default new UserDB();

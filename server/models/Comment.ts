@@ -2,13 +2,13 @@ import { DataTypes, Model } from "sequelize";
 
 import db from "../config/database";
 
-class Response extends Model {
+class Comment extends Model {
   public id!: number;
   public Username!: string;
   public message!: string;
 }
 
-Response.init(
+Comment.init(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     Username: { type: DataTypes.STRING, allowNull: true },
@@ -20,4 +20,4 @@ Response.init(
   },
 );
 
-export default Response;
+export default Comment;

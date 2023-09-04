@@ -1,8 +1,12 @@
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+import { User } from "./../interfaces/user";
 import checkUser from "./checkUser";
-import AuthenticatedRequest from "../interfaces/authenticatedRequest";
+
+interface AuthenticatedRequest extends Request {
+  user: User;
+}
 
 const injectUser = async (
   req: AuthenticatedRequest,

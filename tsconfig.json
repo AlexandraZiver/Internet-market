@@ -14,10 +14,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "baseUrl": "./src",
-    "paths": {
-      "express-session": ["node_modules/express-session"] // Путь к модулю express-session
-    }
+    "baseUrl": "./src"
   },
   "ts-node": {
     "esm": true,

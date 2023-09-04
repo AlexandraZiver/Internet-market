@@ -27,4 +27,6 @@ logs/
 basket.ts
 goods.ts
 type.ts
-
+goodsType.ts
+goodsRating.ts
+goodsComment.ts

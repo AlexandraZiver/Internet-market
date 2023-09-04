@@ -12,7 +12,12 @@ const getErrorByStatusCode = (statusCode: number, message: string): BaseError | 
   }
 };
 
-const errorHandler = (err, req: Request, res: Response, next: NextFunction): Response => {
+const errorHandler = (
+  err,
+  req?: Request,
+  res?: Response,
+  next?: NextFunction,
+): Response | BaseError => {
   const statusCode: number = (err && err.code) || 500;
   const message: string = (err && err.message) || "Something went wrong";
 
@@ -20,7 +25,11 @@ const errorHandler = (err, req: Request, res: Response, next: NextFunction): Res
 
   logger.error(errorByStatusCode);
 
-  return res.status(statusCode).json(errorByStatusCode.toJSON());
+  if (res) {
+    return res.status(statusCode).json(errorByStatusCode.toJSON());
+  }
+
+  return errorByStatusCode;
 };
 
 export default errorHandler;
