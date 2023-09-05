@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 
-import { User } from "../interfaces/user";
-import errorHandler from "../middleware/errorHandler";
-import models from "../models";
+import { User } from "../../interfaces/user";
+import models from "../../models";
+import errorHandler from "../errorHandler";
 
 class UserDB {
   public async createUser(
@@ -23,20 +23,6 @@ class UserDB {
         throw new Error(" Your basket didn't  create");
       }
       return user;
-    } catch (err) {
-      errorHandler(err);
-    }
-  }
-
-  public async createBasketForUser(userId: number): Promise<{ id: number }> {
-    try {
-      const basket = await models.Basket.create({
-        userId,
-      });
-      if (!basket) {
-        throw new Error(" Your basket didn't  create");
-      }
-      return basket;
     } catch (err) {
       errorHandler(err);
     }
