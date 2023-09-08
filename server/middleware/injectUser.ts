@@ -24,7 +24,7 @@ const injectUser = async (
     }
 
     const token: string = req.headers.authorization?.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const decoded: User = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decoded;
     next();
   } catch (err) {

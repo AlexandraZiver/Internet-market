@@ -28,7 +28,7 @@ class UserDB {
     }
   }
 
-  public async getUserByEmail(email: string): Promise<User | null> {
+  public async getByEmail(email: string): Promise<User | null> {
     try {
       const user = await models.User.findOne({ where: { email } });
       if (!user) {
@@ -40,7 +40,7 @@ class UserDB {
     }
   }
 
-  public async getUserById(id: number): Promise<User | null> {
+  public async getById(id: number): Promise<User | null> {
     try {
       const user = await models.User.findByPk(id);
       if (!user) {
@@ -52,7 +52,7 @@ class UserDB {
     }
   }
 
-  public async updateUserConfirmStatus(id: number): Promise<void> {
+  public async updateConfirmStatus(id: number): Promise<void> {
     try {
       const user = await models.User.findByPk(id);
       if (!user) {
@@ -63,8 +63,12 @@ class UserDB {
       errorHandler(err);
     }
   }
-  public async deleteUser(id: number): Promise<void> {
+  public async delete(id: number, user: User): Promise<void> {
     try {
+      const userFromDb = await this.getById(id);
+      if (userFromDb.id !== user.id) {
+        throw new Error("You can't delete not your account");
+      }
       const deleteUserCount: number = await models.User.destroy({ where: { id } });
       if (deleteUserCount === 0) {
         throw new Error("User didn't delete");

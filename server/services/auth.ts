@@ -42,7 +42,7 @@ export const transporter = nodemailer.createTransport({
   port: 587,
 });
 
-export const sendConfirmationCode = async (req: Request): Promise<string | Error> => {
+export const sendConfirmationCode = async (req: Request): Promise<string> => {
   const randomCode = nanoid(4);
   const email: string = req.body.email;
   const mailOptions = {

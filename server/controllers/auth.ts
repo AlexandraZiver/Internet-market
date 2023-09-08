@@ -19,13 +19,14 @@ interface RegistrationRequestBody extends User {
 interface AuthenticatedRequest extends Request {
   user: User;
 }
+const SOLT = 5;
 class AuthController {
   public async register(req: Request, res: Response, next: NextFunction) {
     const { userName, email, password, passwordСonfirm }: RegistrationRequestBody = req.body;
-    const hashPassword: string = await bcrypt.hash(password, 5);
+    const hashPassword: string = await bcrypt.hash(password, SOLT);
     const code = await sendConfirmationCode(req);
 
-    const hashConfirmCode = await bcrypt.hash(`${code}`, 5);
+    const hashConfirmCode = await bcrypt.hash(code, SOLT);
     const user = await UserDB.createUser(userName, email, hashPassword, hashConfirmCode);
 
     const basket = await Basket.createBasketForUser(user.id);
@@ -38,11 +39,11 @@ class AuthController {
     try {
       const id: number = parseInt(req.params.id);
       const { code } = req.body;
-      const { confirmCode } = await UserDB.getUserById(id);
+      const { confirmCode } = await UserDB.getById(id);
 
       comparePassword(code, confirmCode);
 
-      await UserDB.updateUserConfirmStatus(id);
+      await UserDB.updateConfirmStatus(id);
     } catch (err) {
       next(err);
     }
@@ -51,7 +52,7 @@ class AuthController {
   public async login(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     validateLoginVariables(email, password);
-    const checkUser = await UserDB.getUserByEmail(email);
+    const checkUser = await UserDB.getByEmail(email);
 
     comparePassword(password, checkUser.password);
 

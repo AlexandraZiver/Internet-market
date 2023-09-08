@@ -5,7 +5,7 @@ import injectUser from "../middleware/injectUser";
 
 const userRouter = Router();
 
-userRouter.get("/:id", injectUser, UserController.getUserInfo);
-userRouter.delete("/:id", injectUser, UserController.deleteUser);
+userRouter.get("/me", injectUser, UserController.getInfo);
+userRouter.delete("/:id", injectUser, UserController.delete);
 
 export default userRouter;
