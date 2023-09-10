@@ -19,14 +19,15 @@ interface RegistrationRequestBody extends User {
 interface AuthenticatedRequest extends Request {
   user: User;
 }
-const SOLT = 5;
+
+const NUM_SALT_ROUNDS = 5;
 class AuthController {
   public async register(req: Request, res: Response, next: NextFunction) {
     const { userName, email, password, passwordСonfirm }: RegistrationRequestBody = req.body;
-    const hashPassword: string = await bcrypt.hash(password, SOLT);
+    const hashPassword: string = await bcrypt.hash(password, NUM_SALT_ROUNDS);
     const code = await sendConfirmationCode(req);
 
-    const hashConfirmCode = await bcrypt.hash(code, SOLT);
+    const hashConfirmCode = await bcrypt.hash(code, NUM_SALT_ROUNDS);
     const user = await UserDB.createUser(userName, email, hashPassword, hashConfirmCode);
 
     const basket = await Basket.createBasketForUser(user.id);
