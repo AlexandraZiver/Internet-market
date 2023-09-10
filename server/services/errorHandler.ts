@@ -1,7 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-
-import { InternalError, BaseError } from "./errors";
-import logger from "./winston";
+import { InternalError, BaseError } from "../errors";
+import logger from "../winston";
 
 const getErrorByStatusCode = (statusCode: number, message: string): BaseError | InternalError => {
   switch (statusCode) {
@@ -12,15 +10,15 @@ const getErrorByStatusCode = (statusCode: number, message: string): BaseError | 
   }
 };
 
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction): Response => {
+const errorHandler = (err): BaseError => {
   const statusCode: number = (err && err.code) || 500;
   const message: string = (err && err.message) || "Something went wrong";
 
-  const errorByStatusCode = getErrorByStatusCode(statusCode, message);
+  const errorByStatusCode: BaseError | InternalError = getErrorByStatusCode(statusCode, message);
 
   logger.error(errorByStatusCode);
 
-  return res.status(statusCode).json(errorByStatusCode.toJSON());
+  return errorByStatusCode;
 };
 
 export default errorHandler;

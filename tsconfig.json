@@ -13,11 +13,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": "./src"
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
-  "include": ["./server/**/*", "src/**/*"]
+  "include": ["./server/**/*", "src/**/*"],
+  "types": ["@types/bcrypt"]
 }
