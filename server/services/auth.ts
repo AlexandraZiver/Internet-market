@@ -5,21 +5,21 @@ import { nanoid } from "nanoid";
 import nodemailer from "nodemailer";
 import validator from "validator";
 
-import errorHandler from "./errorHandler";
 import models from "../models";
 import User from "../models/User";
 
 export const validateLoginVariables = (email: string, password: string) => {
   if (!email || !password) {
-    errorHandler(new Error("Please enter all input fields for Enter."));
+    throw new Error("Please enter all input fields for Enter.");
   }
 };
 
 export const comparePassword = async (enteredPassword: string, userPassword: string) => {
   const result: boolean = await bcrypt.compare(enteredPassword, userPassword);
   if (!result) {
-    errorHandler(new Error("This password is incorrect"));
+    throw new Error("Password is incorrect");
   }
+  return result;
 };
 
 export const generateJWT = (id: number, email: string): string | Error => {
@@ -27,7 +27,7 @@ export const generateJWT = (id: number, email: string): string | Error => {
     expiresIn: "24h",
   });
   if (!token) {
-    errorHandler(new Error("This token is incorrect"));
+    throw new Error("This token is incorrect");
   }
   return token;
 };
@@ -42,9 +42,8 @@ export const transporter = nodemailer.createTransport({
   port: 587,
 });
 
-export const sendConfirmationCode = async (req: Request): Promise<string> => {
+export const sendConfirmationCode = async (email: string): Promise<string> => {
   const randomCode = nanoid(4);
-  const email: string = req.body.email;
   const mailOptions = {
     from: process.env.EMAIL,
     to: email,
@@ -53,13 +52,12 @@ export const sendConfirmationCode = async (req: Request): Promise<string> => {
   };
 
   if (!randomCode) {
-    errorHandler(new Error("Code wasn't generated"));
+    throw new Error("Code wasn't generated");
   }
   const info = await transporter.sendMail(mailOptions);
   if (!info) {
-    errorHandler(new Error("Error sending confirmation email:"));
+    throw new Error("Error sending confirmation email:");
   }
-
   return randomCode;
 };
 

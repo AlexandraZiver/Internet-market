@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
-import { InternalError, BaseError } from "../errors";
-import logger from "../winston";
+import { InternalError, BaseError } from "../services/errors";
+import logger from "../services/winston";
 
 const getErrorByStatusCode = (statusCode: number, message: string): BaseError | InternalError => {
   switch (statusCode) {
@@ -12,12 +12,7 @@ const getErrorByStatusCode = (statusCode: number, message: string): BaseError | 
   }
 };
 
-const errorHandler = (
-  err,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Response | BaseError => {
+const errorHandler = (err, req: Request, res: Response): Response | BaseError => {
   const statusCode: number = (err && err.code) || 500;
   const message: string = (err && err.message) || "Something went wrong";
 
@@ -25,7 +20,7 @@ const errorHandler = (
 
   logger.error(errorByStatusCode);
 
-  return res.status(statusCode).json(errorByStatusCode.toJSON());
+  return res.status(statusCode).json({ message: errorByStatusCode.message });
 };
 
 export default errorHandler;

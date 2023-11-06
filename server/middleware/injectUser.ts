@@ -18,7 +18,7 @@ const injectUser = async (
   }
 
   try {
-    const isUserAuthenticated = await checkUser(req, res, next);
+    const isUserAuthenticated = await checkUser(req);
     if (!isUserAuthenticated) {
       throw new Error("Unauthorized");
     }

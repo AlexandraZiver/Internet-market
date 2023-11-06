@@ -1,4 +1,4 @@
-import { InternalError, BaseError } from "../errors";
+import { InternalError, BaseError } from ".";
 import logger from "../winston";
 
 const getErrorByStatusCode = (statusCode: number, message: string): BaseError | InternalError => {
@@ -10,7 +10,7 @@ const getErrorByStatusCode = (statusCode: number, message: string): BaseError | 
   }
 };
 
-const errorHandler = (err): BaseError => {
+const errorHandler = (err, res) => {
   const statusCode: number = (err && err.code) || 500;
   const message: string = (err && err.message) || "Something went wrong";
 
@@ -18,7 +18,7 @@ const errorHandler = (err): BaseError => {
 
   logger.error(errorByStatusCode);
 
-  return errorByStatusCode;
+  return res.status(statusCode).json({ error: errorByStatusCode.message });
 };
 
 export default errorHandler;
