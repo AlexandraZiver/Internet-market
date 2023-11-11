@@ -1,14 +1,7 @@
+import * as React from "react";
 
-import * as React from 'react';
+function Goods() {
+  return <div></div>;
+}
 
- function Goods() {
-
-    return (
-      <div>
-        
-      </div>
-    );
-
- } 
- 
-export default Goods
+export default Goods;

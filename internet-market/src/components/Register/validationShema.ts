@@ -22,12 +22,11 @@ export const initialValues: {
   email: string;
   password: string;
   passwordConfirm: string;
-  error:string
+  error: string;
 } = {
-  name: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-  error: '',
+  name: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
+  error: "",
 };
-

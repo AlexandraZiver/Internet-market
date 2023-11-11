@@ -10,7 +10,7 @@ export interface UserStoreInterface {
   setUser(obj: User): void;
   isAuth: boolean;
   user: User;
-} 
+}
 
 class UserStore implements UserStoreInterface {
   private _isAuth: boolean = false;

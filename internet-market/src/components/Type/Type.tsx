@@ -1,13 +1,7 @@
+import * as React from "react";
 
-import * as React from 'react';
+function Type() {
+  return <div></div>;
+}
 
- function Type() {
-
-    return (
-      <div>
-      </div>
-    );
-
- } 
- 
-export default Type
+export default Type;

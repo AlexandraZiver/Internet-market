@@ -1,13 +1,7 @@
+import * as React from "react";
 
-import * as React from 'react';
+function Rating() {
+  return <div></div>;
+}
 
- function Rating() {
-
-    return (
-      <div>
-      </div>
-    );
-
- } 
- 
-export default Rating
+export default Rating;

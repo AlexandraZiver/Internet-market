@@ -1,14 +1,7 @@
+import * as React from "react";
 
-import * as React from 'react';
+function Basket() {
+  return <div></div>;
+}
 
- function Basket() {
-
-    return (
-      <div>
-        
-      </div>
-    );
-
- } 
- 
-export default Basket
+export default Basket;
