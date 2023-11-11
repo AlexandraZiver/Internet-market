@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 
+import { NUM_SALT_ROUNDS } from "../../constants";
 import { User } from "../../interfaces/user";
 import models from "../../models";
-import errorHandler from "../errorHandler";
 
 class UserDB {
   public async createUser(
@@ -11,81 +11,58 @@ class UserDB {
     password: string,
     confirmCode: string,
   ): Promise<User> {
-    try {
-      const hashPassword: string = await bcrypt.hash(password, 5);
-      const user = await models.User.create({
-        userName,
-        email,
-        password: hashPassword,
-        confirmCode,
-      });
-      if (!user) {
-        throw new Error(" Your basket didn't  create");
-      }
-      return user;
-    } catch (err) {
-      errorHandler(err);
+    const hashPassword: string = await bcrypt.hash(password, NUM_SALT_ROUNDS);
+    const hashConfirmCode = await bcrypt.hash(confirmCode, NUM_SALT_ROUNDS);
+    const user = await models.User.create({
+      userName,
+      email,
+      password: hashPassword,
+      confirmCode: hashConfirmCode,
+    });
+    if (!user) {
+      throw new Error(" Your basket didn't  create");
     }
+    return user;
   }
 
   public async getByEmail(email: string): Promise<User | null> {
-    try {
-      const user = await models.User.findOne({ where: { email } });
-      if (!user) {
-        throw new Error(" Your email not registered");
-      }
-      return user;
-    } catch (err) {
-      errorHandler(err);
+    const user = await models.User.findOne({ where: { email } });
+    if (!user) {
+      throw new Error(" Your email not registered");
     }
+    return user;
   }
 
   public async getById(id: number): Promise<User | null> {
-    try {
-      const user = await models.User.findByPk(id);
-      if (!user) {
-        throw new Error("User not found");
-      }
-      return user;
-    } catch (err) {
-      errorHandler(err);
+    const user = await models.User.findByPk(id);
+    if (!user) {
+      throw new Error("User not found");
     }
+    return user;
   }
 
   public async updateConfirmStatus(id: number): Promise<void> {
-    try {
-      const user = await models.User.findByPk(id);
-      if (!user) {
-        throw new Error("User not found");
-      }
-      await models.User.update({ confirmed: true, confirmCode: "" }, { where: { id } });
-    } catch (err) {
-      errorHandler(err);
+    const user = await models.User.findByPk(id);
+    if (!user) {
+      throw new Error("User not found");
     }
+    await models.User.update({ confirmed: true, confirmCode: "" }, { where: { id } });
   }
   public async delete(id: number, user: User): Promise<void> {
-    try {
-      const userFromDb = await this.getById(id);
-      if (userFromDb.id !== user.id) {
-        throw new Error("You can't delete not your account");
-      }
-      const deleteUserCount: number = await models.User.destroy({ where: { id } });
-      if (deleteUserCount === 0) {
-        throw new Error("User didn't delete");
-      }
-    } catch (err) {
-      errorHandler(err);
+    const userFromDb = await this.getById(id);
+    if (userFromDb.id !== user.id) {
+      throw new Error("You can't delete not your account");
+    }
+    const deleteUserCount: number = await models.User.destroy({ where: { id } });
+    if (deleteUserCount === 0) {
+      throw new Error("User didn't delete");
     }
   }
 
   public async deleteBasket(userId: number): Promise<void> {
-    try {
-      const deleteBasketCount: number = await models.Basket.destroy({ where: { userId } });
-      if (deleteBasketCount === 0) {
-        throw new Error("Basket didn't delete");
-      }
-    } catch (err) {
-      errorHandler(err);
+    const deleteBasketCount: number = await models.Basket.destroy({ where: { userId } });
+    if (deleteBasketCount === 0) {
+      throw new Error("Basket didn't delete");
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction } from "express";
+import { Response, Request } from "express";
 
 import { User } from "../interfaces/user";
 import UserDB from "../services/db/user";
@@ -7,17 +7,13 @@ interface AuthenticatedRequest extends Request {
   user: User;
 }
 class UserController {
-  public async getInfo(
-    req: AuthenticatedRequest,
-    res: Response,
-    next: NextFunction,
-  ): Promise<Response> {
+  public async getInfo(req: AuthenticatedRequest, res: Response): Promise<Response> {
     const user: User = await UserDB.getById(req.user.id);
 
     return res.json(user);
   }
 
-  public async delete(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  public async delete(req: AuthenticatedRequest, res: Response): Promise<void> {
     const id: number = parseInt(req.params.id);
     const user = req.user;
     if (!id) {

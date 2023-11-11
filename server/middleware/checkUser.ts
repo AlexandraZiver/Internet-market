@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request } from "express";
 import jwt from "jsonwebtoken";
 
-const checkUser = (req: Request, res: Response, next: NextFunction): boolean => {
+const checkUser = (req: Request): boolean => {
   try {
     const token: string = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -9,6 +9,7 @@ const checkUser = (req: Request, res: Response, next: NextFunction): boolean => 
     }
 
     jwt.verify(token, process.env.SECRET_KEY);
+
     return true;
   } catch (err) {
     return false;
